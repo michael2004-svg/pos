@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Metrics from "../components/dashboard/Metrics";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Modal from "../components/dashboard/Modal";
+import BackButton from "../components/shared/BackButton";
 
 const buttons = [
   { label: "Add Table", icon: <MdTableBar />, action: "table" },
@@ -35,7 +36,11 @@ const Dashboard = () => {
 
   return (
     <div className="bg-[#1f1f1f] h-[calc(100vh-5rem)]">
-      <div className="container mx-auto flex items-center justify-between py-14 px-6 md:px-4">
+      <div className="container mx-auto flex items-center justify-between py-10 px-4 md:px-8">
+        <div className="flex items-center gap-4">
+          <BackButton />
+          <h2 className="text-xl font-bold text-[#f5f5f5]">Admin Dashboard</h2>
+        </div>
         <div className="flex items-center gap-3">
           {buttons.map(({ label, icon, action }) => {
             return (

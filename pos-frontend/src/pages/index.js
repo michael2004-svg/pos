@@ -6,3 +6,4 @@ export { default as Menu } from './Menu.jsx'
 export { default as Dashboard } from "./Dashboard.jsx"
 export { default as Settings } from "./Settings.jsx"
 export { default as MenuSettings } from "./MenuSettings.jsx"
+export { default as Reports } from "./Reports.jsx"

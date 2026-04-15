@@ -12,6 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { removeAllItems } from "../../redux/slices/cartSlice";
 import { removeCustomer } from "../../redux/slices/customerSlice";
 import Invoice from "../invoice/Invoice";
+import { FaMobileAlt } from "react-icons/fa";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -47,6 +48,30 @@ const Bill = () => {
         variant: "warning",
       });
 
+      return;
+    }
+
+    if (paymentMethod === "M-Pesa") {
+      const phone = customerData.phone;
+      if (!phone) {
+        enqueueSnackbar("Please enter customer phone number!", { variant: "warning" });
+        return;
+      }
+
+      try {
+        enqueueSnackbar("Sending M-Pesa STK Push...", { variant: "info" });
+        
+        const res = await createOrderRazorpay({
+          amount: totalPriceWithTax.toFixed(2),
+          phone: phone,
+        });
+
+        if (res.data.success) {
+          enqueueSnackbar("Check your phone for M-Pesa prompt", { variant: "success" });
+        }
+      } catch (error) {
+        enqueueSnackbar("M-Pesa request failed: " + (error.response?.data?.message || "Try again"), { variant: "error" });
+      }
       return;
     }
 
@@ -211,34 +236,42 @@ const Bill = () => {
           ₹{totalPriceWithTax.toFixed(2)}
         </h1>
       </div>
-      <div className="flex items-center gap-3 px-5 mt-4">
+      <div className="flex items-center gap-2 px-3 sm:px-5 mt-4">
         <button
           onClick={() => setPaymentMethod("Cash")}
-          className={`bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold ${
+          className={`bg-[#1f1f1f] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#ababab] font-semibold text-sm sm:text-base ${
             paymentMethod === "Cash" ? "bg-[#383737]" : ""
           }`}
         >
-          Cash
+          Cash 💵
+        </button>
+        <button
+          onClick={() => setPaymentMethod("M-Pesa")}
+          className={`bg-[#1f1f1f] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#ababab] font-semibold text-sm sm:text-base ${
+            paymentMethod === "M-Pesa" ? "bg-[#383737]" : ""
+          }`}
+        >
+          M-Pesa 📱
         </button>
         <button
           onClick={() => setPaymentMethod("Online")}
-          className={`bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold ${
+          className={`bg-[#1f1f1f] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#ababab] font-semibold text-sm sm:text-base ${
             paymentMethod === "Online" ? "bg-[#383737]" : ""
           }`}
         >
-          Online
+          Card 💳
         </button>
       </div>
 
-      <div className="flex items-center gap-3 px-5 mt-4">
-        <button className="bg-[#025cca] px-4 py-3 w-full rounded-lg text-[#f5f5f5] font-semibold text-lg">
-          Print Receipt
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 mt-4 pb-20 md:pb-4">
+        <button className="bg-[#025cca] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#f5f5f5] font-semibold text-sm sm:text-base">
+          🖨️ Print
         </button>
         <button
           onClick={handlePlaceOrder}
-          className="bg-[#f6b100] px-4 py-3 w-full rounded-lg text-[#1f1f1f] font-semibold text-lg"
+          className="bg-[#f6b100] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#1f1f1f] font-semibold text-sm sm:text-base"
         >
-          Place Order
+          ✅ Order
         </button>
       </div>
 

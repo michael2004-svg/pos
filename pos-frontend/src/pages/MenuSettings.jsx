@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { menus } from "../constants";
+import BackButton from "../components/shared/BackButton";
 
 const MenuSettings = () => {
   const { role } = useSelector((state) => state.user);
@@ -47,10 +48,13 @@ const MenuSettings = () => {
   };
 
   return (
-    <div className="p-4 bg-[#1f1f1f] min-h-screen">
+    <div className="p-4 bg-[#1f1f1f] min-h-screen pb-20">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-[#f5f5f5]">Menu Management</h2>
-        <button onClick={() => navigate("/settings")} className="text-[#ababab]">← Back</button>
+        <div className="flex items-center gap-2">
+          <BackButton />
+          <h2 className="text-xl font-bold text-[#f5f5f5]">Menu Management</h2>
+        </div>
+        <button onClick={() => navigate("/settings")} className="text-[#ababab]">Done</button>
       </div>
 
       <div className="mb-4">
