@@ -17,15 +17,18 @@ const buttons = [
 const tabs = ["Metrics", "Orders", "Payments"];
 
 const Dashboard = () => {
-  const { role } = useSelector((state) => state.user);
+  const { role, isAuth } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "POS | Admin Dashboard"
-    if (role !== "Admin") {
+    document.title = "POS | Admin Dashboard";
+  }, []);
+
+  useEffect(() => {
+    if (isAuth && role !== "Admin") {
       navigate("/");
     }
-  }, [role])
+  }, [isAuth, role]);
 
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Metrics");

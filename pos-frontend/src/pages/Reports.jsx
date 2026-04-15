@@ -9,16 +9,19 @@ import BackButton from "../components/shared/BackButton";
 import { MdTableBar } from "react-icons/md";
 
 const Reports = () => {
-  const { role } = useSelector((state) => state.user);
+  const { role, isAuth } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [dateRange, setDateRange] = useState("today");
 
   useEffect(() => {
-    if (role !== "Admin") {
+    document.title = "POS | Reports";
+  }, []);
+
+  useEffect(() => {
+    if (isAuth && role !== "Admin") {
       navigate("/");
     }
-    document.title = "POS | Reports";
-  }, [role]);
+  }, [isAuth, role]);
 
   const { data: ordersData } = useQuery({
     queryKey: ["orders-report"],

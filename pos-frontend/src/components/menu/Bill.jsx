@@ -41,6 +41,7 @@ const Bill = () => {
   const [paymentMethod, setPaymentMethod] = useState();
   const [showInvoice, setShowInvoice] = useState(false);
   const [orderInfo, setOrderInfo] = useState();
+  const [mpesaPhone, setMpesaPhone] = useState(customerData.phone || "");
 
   const handlePlaceOrder = async () => {
     if (!paymentMethod) {
@@ -52,9 +53,9 @@ const Bill = () => {
     }
 
     if (paymentMethod === "M-Pesa") {
-      const phone = customerData.phone;
+      const phone = mpesaPhone || customerData.phone;
       if (!phone) {
-        enqueueSnackbar("Please enter customer phone number!", { variant: "warning" });
+        enqueueSnackbar("Enter M-Pesa phone number!", { variant: "warning" });
         return;
       }
 
@@ -262,6 +263,19 @@ const Bill = () => {
           Card 💳
         </button>
       </div>
+
+      {paymentMethod === "M-Pesa" && (
+        <div className="px-3 sm:px-5 mt-3">
+          <label className="text-[#ababab] text-xs block mb-1">M-Pesa Phone (2547XXXXXXX)</label>
+          <input
+            type="tel"
+            value={mpesaPhone}
+            onChange={(e) => setMpesaPhone(e.target.value)}
+            placeholder="2547XXXXXXXX"
+            className="w-full bg-[#1f1f1f] text-white p-2 rounded-lg text-sm"
+          />
+        </div>
+      )}
 
       <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 mt-4 pb-20 md:pb-4">
         <button className="bg-[#025cca] px-2 sm:px-4 py-3 flex-1 rounded-lg text-[#f5f5f5] font-semibold text-sm sm:text-base">

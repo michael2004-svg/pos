@@ -5,7 +5,7 @@ import { menus } from "../constants";
 import BackButton from "../components/shared/BackButton";
 
 const MenuSettings = () => {
-  const { role } = useSelector((state) => state.user);
+  const { role, isAuth } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(menus[0]);
   const [items, setItems] = useState([...menus]);
@@ -13,10 +13,10 @@ const MenuSettings = () => {
   const [newItem, setNewItem] = useState({ name: "", price: "", category: "Vegetarian" });
 
   React.useEffect(() => {
-    if (role !== "Admin") {
+    if (isAuth && role !== "Admin") {
       navigate("/");
     }
-  }, [role]);
+  }, [isAuth, role]);
 
   const handleAddItem = () => {
     if (!newItem.name || !newItem.price) return;
