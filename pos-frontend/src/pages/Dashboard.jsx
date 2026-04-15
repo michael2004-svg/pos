@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { MdTableBar, MdCategory } from "react-icons/md";
 import { BiSolidDish } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Metrics from "../components/dashboard/Metrics";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Modal from "../components/dashboard/Modal";
@@ -14,10 +16,15 @@ const buttons = [
 const tabs = ["Metrics", "Orders", "Payments"];
 
 const Dashboard = () => {
+  const { role } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "POS | Admin Dashboard"
-  }, [])
+    if (role !== "Admin") {
+      navigate("/");
+    }
+  }, [role])
 
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Metrics");
