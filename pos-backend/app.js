@@ -14,7 +14,8 @@ app.use(cors({
     credentials: true,
     origin: [
         'http://localhost:5173',
-        'http://192.168.0.134:5173'
+        'http://192.168.0.134:5173',
+        'https://pos-one-psi.vercel.app'
     ]
 }));
 
